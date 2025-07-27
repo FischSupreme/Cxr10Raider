@@ -1,0 +1,1302 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Bot GUI - Premium Control Panel</title>
+    <style>
+        :root {
+            --primary-color: #9966cc;
+            --secondary-color: #ba55d3;
+            --bg-color: #2d1b69;
+            --bg-secondary: #11052c;
+            --text-color: #e4d5f7;
+            --card-bg: rgba(68, 28, 119, 0.3);
+            --border-color: rgba(186, 85, 211, 0.3);
+            --button-image: none;
+            --background-image: none;
+        }
+
+        .theme-emerald {
+            --primary-color: #10b981;
+            --secondary-color: #34d399;
+            --bg-color: #064e3b;
+            --bg-secondary: #022c22;
+            --text-color: #d1fae5;
+            --card-bg: rgba(16, 185, 129, 0.2);
+            --border-color: rgba(52, 211, 153, 0.3);
+        }
+
+        .theme-ruby {
+            --primary-color: #dc2626;
+            --secondary-color: #ef4444;
+            --bg-color: #7f1d1d;
+            --bg-secondary: #450a0a;
+            --text-color: #fecaca;
+            --card-bg: rgba(220, 38, 38, 0.2);
+            --border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .theme-maroon {
+            --primary-color: #800000;
+            --secondary-color: #a52a2a;
+            --bg-color: #2d0000;
+            --bg-secondary: #1a0000;
+            --text-color: #ffcccc;
+            --card-bg: rgba(128, 0, 0, 0.3);
+            --border-color: rgba(165, 42, 42, 0.3);
+        }
+
+        .theme-pink {
+            --primary-color: #ec4899;
+            --secondary-color: #f472b6;
+            --bg-color: #831843;
+            --bg-secondary: #4c0519;
+            --text-color: #fce7f3;
+            --card-bg: rgba(236, 72, 153, 0.2);
+            --border-color: rgba(244, 114, 182, 0.3);
+        }
+
+        .theme-blood {
+            --primary-color: #7f0000;
+            --secondary-color: #8b0000;
+            --bg-color: #1a0000;
+            --bg-secondary: #0d0000;
+            --text-color: #ff6b6b;
+            --card-bg: rgba(127, 0, 0, 0.4);
+            --border-color: rgba(139, 0, 0, 0.5);
+        }
+
+        .theme-ocean {
+            --primary-color: #0891b2;
+            --secondary-color: #06b6d4;
+            --bg-color: #0c4a6e;
+            --bg-secondary: #082f49;
+            --text-color: #cffafe;
+            --card-bg: rgba(8, 145, 178, 0.2);
+            --border-color: rgba(6, 182, 212, 0.3);
+        }
+
+        .theme-forest {
+            --primary-color: #059669;
+            --secondary-color: #10b981;
+            --bg-color: #064e3b;
+            --bg-secondary: #022c22;
+            --text-color: #a7f3d0;
+            --card-bg: rgba(5, 150, 105, 0.2);
+            --border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .theme-sunset {
+            --primary-color: #f59e0b;
+            --secondary-color: #fbbf24;
+            --bg-color: #7c2d12;
+            --bg-secondary: #451a03;
+            --text-color: #fed7aa;
+            --card-bg: rgba(245, 158, 11, 0.2);
+            --border-color: rgba(251, 191, 36, 0.3);
+        }
+
+        .theme-midnight {
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --bg-color: #1e1b4b;
+            --bg-secondary: #0f0e27;
+            --text-color: #c7d2fe;
+            --card-bg: rgba(99, 102, 241, 0.2);
+            --border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        .theme-royal {
+            --primary-color: #7c3aed;
+            --secondary-color: #a855f7;
+            --bg-color: #581c87;
+            --bg-secondary: #3b0764;
+            --text-color: #ddd6fe;
+            --card-bg: rgba(124, 58, 237, 0.2);
+            --border-color: rgba(168, 85, 247, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--bg-color) 0%, var(--bg-secondary) 100%);
+            background-image: var(--background-image);
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .settings-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            color: white;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .settings-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .auth-section, .main-content, .settings-page {
+            padding: 30px;
+            display: none;
+        }
+
+        .auth-section.visible, .main-content.visible, .settings-page.visible {
+            display: block;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        .input-group input, .input-group select, .input-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--text-color);
+            font-size: 16px;
+            transition: all 0.3s ease;
+            resize: vertical;
+        }
+
+        .input-group input:focus, .input-group select:focus, .input-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn {
+            background: linear-gradient(45deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            background-image: var(--button-image);
+            background-size: cover;
+            background-position: center;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .command-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .command-btn {
+            background: var(--card-bg);
+            background-image: var(--button-image);
+            background-size: cover;
+            background-position: center;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+            text-align: left;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .command-btn:hover {
+            background: rgba(0, 0, 0, 0.3);
+            border-color: var(--primary-color);
+            transform: translateY(-1px);
+        }
+
+        .command-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--secondary-color);
+        }
+
+        .command-code {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #00ff00;
+            border: 1px solid var(--border-color);
+            word-break: break-all;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(0, 0, 0, 0.7);
+            border: none;
+            color: white;
+            padding: 5px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .command-btn:hover .copy-btn {
+            opacity: 1;
+        }
+
+        .tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            margin-bottom: 5px;
+        }
+
+        .command-btn:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .status.success {
+            background: rgba(72, 187, 120, 0.3);
+            border: 1px solid #48bb78;
+            color: #68d391;
+        }
+
+        .status.error {
+            background: rgba(245, 101, 101, 0.3);
+            border: 1px solid #f56565;
+            color: #fc8181;
+        }
+
+        .target-info {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .category {
+            margin-bottom: 30px;
+        }
+
+        .category h3 {
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .warning {
+            background: rgba(245, 101, 101, 0.2);
+            border: 1px solid #f56565;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .warning strong {
+            color: #fc8181;
+        }
+
+        .role-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .theme-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .theme-option {
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .theme-option:hover {
+            transform: translateY(-2px);
+            border-color: white;
+        }
+
+        .theme-option.active {
+            border-color: white;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .settings-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        .settings-section h3 {
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .premium-badge {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #000;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 800;
+            margin-left: 8px;
+        }
+
+        .pro-feature {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pro-feature::before {
+            content: '💎 PRO';
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #000;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .mention-inputs {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            z-index: 2000;
+            transform: translateX(400px);
+            transition: all 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.error {
+            background: #dc2626;
+        }
+
+        .notification.success {
+            background: #059669;
+        }
+
+        .image-preview {
+            max-width: 200px;
+            max-height: 100px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        .url-input-group {
+            display: flex;
+            gap: 10px;
+            align-items: end;
+        }
+
+        .url-input-group input {
+            flex: 1;
+        }
+
+        .preview-btn {
+            background: var(--secondary-color);
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="notification" id="notification"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>🔮 Discord Bot Control Panel</h1>
+            <p>Premium Command Display Interface<span class="premium-badge">PREMIUM</span></p>
+            <button class="settings-btn" onclick="openSettings()">⚙️</button>
+        </div>
+
+        <div id="auth-section" class="auth-section visible">
+            <h2>🔐 Access Key Required</h2>
+            <p>Enter your access key to use the bot control panel</p>
+            <br>
+            <div class="input-group">
+                <input type="text" id="access-key" placeholder="Enter your access key">
+            </div>
+            <button class="btn" onclick="verifyKey()">🔓 Verify Access</button>
+            <div id="auth-status"></div>
+        </div>
+
+        <div id="settings-page" class="settings-page">
+            <div class="settings-section">
+                <h3>🎨 Theme Selection <span class="premium-badge">PRO</span></h3>
+                <p>Choose your preferred color theme</p>
+                <div class="theme-selector">
+                    <div class="theme-option active" onclick="changeTheme('amethyst')" style="background: linear-gradient(45deg, #9966cc, #ba55d3);">
+                        Amethyst
+                    </div>
+                    <div class="theme-option" onclick="changeTheme('emerald')" style="background: linear-gradient(45deg, #10b981, #34d399);">
+                        Emerald
+                    </div>
+                    <div class="theme-option" onclick="changeTheme('ruby')" style="background: linear-gradient(45deg, #dc2626, #ef4444);">
+                        Ruby
+                    </div>
+                    <div class="theme-option" onclick="changeTheme('maroon')" style="background: linear-gradient(45deg, #800000, #a52a2a);">
+                        Maroon
+                    </div>
+                    <div class="theme-option" onclick="changeTheme('pink')" style="background: linear-gradient(45deg, #ec4899, #f472b6);">
+                        Pink
+                    </div>
+                    <div class="theme-option" onclick="changeTheme('blood')" style="background: linear-gradient(45deg, #7f0000, #8b0000);">
+                        Blood
+                    </div>
+                    <div class="theme-option" onclick="changeTheme('ocean')" style="background: linear-gradient(45deg, #0891b2, #06b6d4);">
+                        Ocean
+                    </div>
+                    <div class="theme-option" onclick="changeTheme('forest')" style="background: linear-gradient(45deg, #059669, #10b981);">
+                        Forest
+                    </div>
+                    <div class="theme-option" onclick="changeTheme('sunset')" style="background: linear-gradient(45deg, #f59e0b, #fbbf24);">
+                        Sunset
+                    </div>
+                    <div class="theme-option" onclick="changeTheme('midnight')" style="background: linear-gradient(45deg, #6366f1, #8b5cf6);">
+                        Midnight
+                    </div>
+                    <div class="theme-option" onclick="changeTheme('royal')" style="background: linear-gradient(45deg, #7c3aed, #a855f7);">
+                        Royal
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-section pro-feature">
+                <h3>🖼️ Custom Button Image</h3>
+                <p>Set a custom background image for all buttons</p>
+                <div class="url-input-group">
+                    <input type="url" id="button-image-url" placeholder="Enter image URL for buttons">
+                    <button class="btn preview-btn" onclick="previewButtonImage()">Preview</button>
+                    <button class="btn" onclick="setButtonImage()">Apply</button>
+                    <button class="btn back-btn" onclick="clearButtonImage()">Clear</button>
+                </div>
+                <img id="button-image-preview" class="image-preview" style="display: none;" alt="Button image preview">
+            </div>
+
+            <div class="settings-section pro-feature">
+                <h3>🌄 Custom Background Picture</h3>
+                <p>Set a custom background image for the entire interface</p>
+                <div class="url-input-group">
+                    <input type="url" id="background-image-url" placeholder="Enter image URL for background">
+                    <button class="btn preview-btn" onclick="previewBackgroundImage()">Preview</button>
+                    <button class="btn" onclick="setBackgroundImage()">Apply</button>
+                    <button class="btn back-btn" onclick="clearBackgroundImage()">Clear</button>
+                </div>
+                <img id="background-image-preview" class="image-preview" style="display: none;" alt="Background image preview">
+            </div>
+
+            <div class="settings-section pro-feature">
+                <h3>🔊 Sound Effects</h3>
+                <div class="input-group">
+                    <label>
+                        <input type="checkbox" id="sound-effects"> Enable sound effects for commands
+                    </label>
+                </div>
+                <div class="input-group">
+                    <label>
+                        <input type="checkbox" id="success-sounds"> Play success sounds
+                    </label>
+                </div>
+            </div>
+
+            <div class="settings-section pro-feature">
+                <h3>🌟 Animation Settings</h3>
+                <div class="input-group">
+                    <label>Animation Speed:</label>
+                    <select id="animation-speed">
+                        <option value="slow">Slow</option>
+                        <option value="normal" selected>Normal</option>
+                        <option value="fast">Fast</option>
+                        <option value="instant">Instant</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>
+                        <input type="checkbox" id="particle-effects" checked> Enable particle effects
+                    </label>
+                </div>
+            </div>
+
+            <div class="settings-section pro-feature">
+                <h3>💎 Premium Features</h3>
+                <div class="input-group">
+                    <label>
+                        <input type="checkbox" id="auto-target"> Auto-detect target server
+                    </label>
+                </div>
+                <div class="input-group">
+                    <label>
+                        <input type="checkbox" id="batch-commands"> Enable batch command execution
+                    </label>
+                </div>
+                <div class="input-group">
+                    <label>
+                        <input type="checkbox" id="command-scheduling"> Schedule commands for later
+                    </label>
+                </div>
+            </div>
+
+            <div class="settings-section pro-feature">
+                <h3>🔐 Security Settings</h3>
+                <div class="input-group">
+                    <label>
+                        <input type="checkbox" id="require-confirmation"> Require confirmation for destructive commands
+                    </label>
+                </div>
+                <div class="input-group">
+                    <label>
+                        <input type="checkbox" id="audit-logging"> Enable audit logging
+                    </label>
+                </div>
+            </div>
+
+            <div class="settings-section pro-feature">
+                <h3>📊 Dashboard Customization</h3>
+                <div class="input-group">
+                    <label>Command Grid Columns:</label>
+                    <select id="grid-columns">
+                        <option value="2">2 Columns</option>
+                        <option value="3" selected>3 Columns</option>
+                        <option value="4">4 Columns</option>
+                        <option value="5">5 Columns</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>
+                        <input type="checkbox" id="compact-mode"> Compact mode
+                    </label>
+                </div>
+            </div>
+
+            <button class="btn back-btn" onclick="closeSettings()">← Back to Main Panel</button>
+        </div>
+
+        <div id="main-content" class="main-content">
+            <div class="warning">
+                <strong>📋 INFORMATION:</strong> GET READY TO SHAT ON PEOPLE'S DISCORDS :)
+            </div>
+
+            <div class="input-group">
+                <label for="server-id">🏰 Server ID:</label>
+                <input type="text" id="server-id" placeholder="Enter Discord Server ID" value="1234567890123456789">
+            </div>
+
+            <div class="input-group">
+                <label for="channel-id">📢 Channel ID:</label>
+                <input type="text" id="channel-id" placeholder="Enter Discord Channel ID" value="1234567890123456789">
+            </div>
+
+            <div class="target-info">
+                <h3>📋 How to Use</h3>
+                <p>1. Copy the command from any button below</p>
+                <p>2. Paste it into a Discord channel where the bot is present</p>
+                <p>3. The bot will execute the command</p>
+            </div>
+
+            <div class="category">
+                <h3>📢 Mentions Category</h3>
+                <div class="command-grid">
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">📢 Mass Mention</div>
+                        <div class="command-code">>massmention</div>
+                        <div class="tooltip">Mentions all users in the server repeatedly</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">🔔 Everyone Ping</div>
+                        <div class="command-code">>everyoneping</div>
+                        <div class="tooltip">Pings @everyone multiple times</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">💥 Mention Spam</div>
+                        <div class="command-code">>mentionspam</div>
+                        <div class="tooltip">Spams mentions of all server members</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">👻 Ghost Ping</div>
+                        <div class="command-code">>ghostping</div>
+                        <div class="tooltip">Mentions everyone then deletes the message</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">🎭 Role Spam</div>
+                        <div class="command-code">>rolespam</div>
+                        <div class="tooltip">Spams all role mentions in the server</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category">
+                <h3>🎭 Roles Management</h3>
+                <div class="role-inputs">
+                    <input type="text" id="role-user-id" placeholder="User ID" value="123456789">
+                    <input type="text" id="role-id" placeholder="Role ID" value="987654321">
+                </div>
+                <div class="command-grid">
+                    <div class="command-btn" onclick="copyRoleCommand(this, 'giverole')">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">➕ Give Role</div>
+                        <div class="command-code">>giverole @user roleID</div>
+                        <div class="tooltip">Give a specific role to a user</div>
+                    </div>
+                    <div class="command-btn" onclick="copyRoleCommand(this, 'removerole')">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">➖ Remove Role</div>
+                        <div class="command-code">>removerole @user roleID</div>
+                        <div class="tooltip">Remove a specific role from a user</div>
+                    </div>
+                    <div class="command-btn" onclick="copyRoleCommand(this, 'giveroleall')">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">🎭 Give All Roles</div>
+                        <div class="command-code">>giveroleall @user</div>
+                        <div class="tooltip">Give ALL server roles to a user</div>
+                    </div>
+                    <div class="command-btn" onclick="copyRoleCommand(this, 'removeroleall')">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">🗑️ Remove All Roles</div>
+                        <div class="command-code">>removeroleall @user</div>
+                        <div class="tooltip">Remove ALL roles from a user</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">🏭 Mass Create Roles</div>
+                        <div class="command-code">>massroles</div>
+                        <div class="tooltip">Create hundreds of new roles</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">💀 Delete All Roles</div>
+                        <div class="command-code">>deleteroles</div>
+                        <div class="tooltip">Delete all non-essential roles</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category">
+                <h3>💀 Extreme Destruction Commands</h3>
+                <div class="command-grid">
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">🔥 Absolute Annihilation</div>
+                        <div class="command-code">>absoluteannihilation</div>
+                        <div class="tooltip">Complete server destruction - nothing survives</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">☢️ Nuke Server</div>
+                        <div class="command-code">>nukeserver</div>
+                        <div class="tooltip">Nuclear-level server destruction</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">💀 Delete Server Info</div>
+                        <div class="command-code">>deleteserverinfo</div>
+                        <div class="tooltip">Wipe all server data and identity</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">Ω Omega Destruction</div>
+                        <div class="command-code">>omegadestruction</div>
+                        <div class="tooltip">Final protocol - ultimate devastation</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">😈 Eternal Damnation</div>
+                        <div class="command-code">>eternaldamnation</div>
+                        <div class="tooltip">Curse the server for eternity</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">🕳️ Void Consumption</div>
+                        <div class="command-code">>voidconsumption</div>
+                        <div class="tooltip">The void devours everything</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">⭐ Starzykey Protocol</div>
+                        <div class="command-code">>Starzykey</div>
+                        <div class="tooltip">Ultimate power unleashed!</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category">
+                <h3>🌪️ Chaos & Spam Commands</h3>
+                <div class="command-grid">
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">💥 Spam Here</div>
+                        <div class="command-code">>spamhere</div>
+                        <div class="tooltip">Massive message spam in current channel</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">🏓 Ping Spam (2000x)</div>
+                        <div class="command-code">>ping</div>
+                        <div class="tooltip">Send 2000 ping messages rapidly</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">💀 Crash Discord</div>
+                        <div class="command-code">>crashdiscord</div>
+                        <div class="tooltip">Attempt to crash Discord clients</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">🌪️ Chaos Mode</div>
+                        <div class="command-code">>chaosmode</div>
+                        <div class="tooltip">Unleash maximum chaos across server</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">♾️ Infinite Spam</div>
+                        <div class="command-code">>infinitespam</div>
+                        <div class="tooltip">Never-ending spam loop</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">🤡 Toxic Mode</div>
+                        <div class="command-code">>toxicmode</div>
+                        <div class="tooltip">Extremely annoying toxic messages</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">😀 Emoji Flood</div>
+                        <div class="command-code">>emojiflood</div>
+                        <div class="tooltip">Flood with thousands of emojis</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">📝 Unicode Spam</div>
+                        <div class="command-code">>unicodespam</div>
+                        <div class="tooltip">Special Unicode character spam</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category">
+                <h3>🏗️ Channel Management</h3>
+                <div class="command-grid">
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">🚀 Spam Create Channels</div>
+                        <div class="command-code">>spamcreate</div>
+                        <div class="tooltip">Create thousands of channels rapidly</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">🗑️ Delete All Channels</div>
+                        <div class="command-code">>deleteall</div>
+                        <div class="tooltip">Instantly delete every channel</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">💥 Create Chaos Channels</div>
+                        <div class="command-code">>createchaos</div>
+                        <div class="tooltip">Create hundreds of chaos-themed channels</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">✏️ Rename All Channels</div>
+                        <div class="command-code">>renameall</div>
+                        <div class="tooltip">Rename every channel to chaos names</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">🔊 Voice Channel Spam</div>
+                        <div class="command-code">>voicespam</div>
+                        <div class="tooltip">Create massive amounts of voice channels</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">📁 Category Spam</div>
+                        <div class="command-code">>categoryspam</div>
+                        <div class="tooltip">Spam create channel categories</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category">
+                <h3>👥 Member Management</h3>
+                <div class="command-grid">
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">🔨 Ban All Members</div>
+                        <div class="command-code">>banall</div>
+                        <div class="tooltip">Ban every member in the server</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">👢 Kick All Members</div>
+                        <div class="command-code">>kickall</div>
+                        <div class="tooltip">Kick every member from server</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">🔇 Mute All Members</div>
+                        <div class="command-code">>muteall</div>
+                        <div class="tooltip">Timeout every member for 1 hour</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">🎭 Mass Nickname Change</div>
+                        <div class="command-code">>massnick</div>
+                        <div class="tooltip">Change everyone's nickname to chaos</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">🔇 Voice Kick All</div>
+                        <div class="command-code">>voicekickall</div>
+                        <div class="tooltip">Disconnect everyone from voice channels</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">🔄 Voice Move Loop</div>
+                        <div class="command-code">>moveloop</div>
+                        <div class="tooltip">Continuously move users between voice channels</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category">
+                <h3>🤖 Bot Control Commands</h3>
+                <div class="command-grid">
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">👑 Force Takeover</div>
+                        <div class="command-code">>forcetakeover</div>
+                        <div class="tooltip">Force server takeover by bot</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">🤖 Claim Ownership</div>
+                        <div class="command-code">>claimownership</div>
+                        <div class="tooltip">Bot claims maximum possible control</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">🏛️ Bot Dictatorship</div>
+                        <div class="command-code">>botdictatorship</div>
+                        <div class="tooltip">Establish complete bot rule</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">⚙️ Automatic Rule</div>
+                        <div class="command-code">>automaticrule</div>
+                        <div class="tooltip">Set up automated bot governance</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category">
+                <h3>🛑 Control Commands</h3>
+                <div class="command-grid">
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">🛑 Stop Bot</div>
+                        <div class="command-code">>stopnodejs</div>
+                        <div class="tooltip">Completely stop the bot process</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">👻 Go Offline</div>
+                        <div class="command-code">>offline</div>
+                        <div class="tooltip">Make bot appear offline</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">✅ Go Online</div>
+                        <div class="command-code">>online</div>
+                        <div class="tooltip">Make bot appear online</div>
+                    </div>
+                    <div class="command-btn" onclick="copyCommand(this)">
+                        <button class="copy-btn">Copy</button>
+                        <div class="command-title">🔐 Generate Key</div>
+                        <div class="command-code">>key</div>
+                        <div class="tooltip">Generate GUI access key</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="status"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentTheme = 'amethyst';
+
+        // Load saved settings
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('botGuiTheme');
+            if (savedTheme) {
+                changeTheme(savedTheme);
+            }
+
+            const savedButtonImage = localStorage.getItem('buttonImage');
+            if (savedButtonImage) {
+                document.documentElement.style.setProperty('--button-image', `url(${savedButtonImage})`);
+                document.getElementById('button-image-url').value = savedButtonImage;
+            }
+
+            const savedBackgroundImage = localStorage.getItem('backgroundImage');
+            if (savedBackgroundImage) {
+                document.documentElement.style.setProperty('--background-image', `url(${savedBackgroundImage})`);
+                document.getElementById('background-image-url').value = savedBackgroundImage;
+            }
+        });
+
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        function changeTheme(theme) {
+            currentTheme = theme;
+            document.body.className = `theme-${theme}`;
+            localStorage.setItem('botGuiTheme', theme);
+            
+            // Update active theme option
+            document.querySelectorAll('.theme-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            
+            // Find and activate the correct theme option by checking onclick attribute
+            document.querySelectorAll('.theme-option').forEach(option => {
+                const onclickAttr = option.getAttribute('onclick');
+                if (onclickAttr && onclickAttr.includes(`'${theme}'`)) {
+                    option.classList.add('active');
+                }
+            });
+            
+            showNotification(`Theme changed to ${theme.charAt(0).toUpperCase() + theme.slice(1)}!`);
+        }
+
+        function openSettings() {
+            document.getElementById('main-content').classList.remove('visible');
+            document.getElementById('settings-page').classList.add('visible');
+        }
+
+        function closeSettings() {
+            document.getElementById('settings-page').classList.remove('visible');
+            document.getElementById('main-content').classList.add('visible');
+        }
+
+        async function verifyKey() {
+            const accessKey = document.getElementById('access-key').value.trim();
+            
+            if (!accessKey) {
+                showNotification('Please enter an access key', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('/verify-key', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ key: accessKey })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    document.getElementById('auth-section').classList.remove('visible');
+                    document.getElementById('main-content').classList.add('visible');
+                    showNotification(result.message || 'Access granted!');
+                } else {
+                    showNotification(result.error || 'Invalid access key', 'error');
+                }
+            } catch (error) {
+                console.error('Key verification error:', error);
+                showNotification('You need to generate a real access key using >key command in Discord!', 'error');
+            }
+        }
+
+        function copyCommand(element) {
+            const commandCode = element.querySelector('.command-code').textContent;
+            navigator.clipboard.writeText(commandCode).then(() => {
+                showNotification(`Copied: ${commandCode}`);
+                element.querySelector('.copy-btn').textContent = 'Copied!';
+                setTimeout(() => {
+                    element.querySelector('.copy-btn').textContent = 'Copy';
+                }, 2000);
+            }).catch(() => {
+                showNotification('Failed to copy command', 'error');
+            });
+        }
+
+        function copyRoleCommand(element, baseCommand) {
+            const userId = document.getElementById('role-user-id').value || '123456789';
+            const roleId = document.getElementById('role-id').value || '987654321';
+            
+            let command;
+            if (baseCommand === 'giveroleall' || baseCommand === 'removeroleall') {
+                command = `>${baseCommand} <@${userId}>`;
+            } else {
+                command = `>${baseCommand} <@${userId}> ${roleId}`;
+            }
+            
+            navigator.clipboard.writeText(command).then(() => {
+                showNotification(`Copied: ${command}`);
+                element.querySelector('.copy-btn').textContent = 'Copied!';
+                setTimeout(() => {
+                    element.querySelector('.copy-btn').textContent = 'Copy';
+                }, 2000);
+            }).catch(() => {
+                showNotification('Failed to copy command', 'error');
+            });
+        }
+
+        function previewButtonImage() {
+            const url = document.getElementById('button-image-url').value;
+            if (url) {
+                const preview = document.getElementById('button-image-preview');
+                preview.src = url;
+                preview.style.display = 'block';
+                preview.onerror = () => {
+                    showNotification('Invalid image URL', 'error');
+                    preview.style.display = 'none';
+                };
+            }
+        }
+
+        function setButtonImage() {
+            const url = document.getElementById('button-image-url').value;
+            if (url) {
+                document.documentElement.style.setProperty('--button-image', `url(${url})`);
+                localStorage.setItem('buttonImage', url);
+                showNotification('Button image applied successfully!');
+            } else {
+                showNotification('Please enter an image URL', 'error');
+            }
+        }
+
+        function clearButtonImage() {
+            document.documentElement.style.setProperty('--button-image', 'none');
+            localStorage.removeItem('buttonImage');
+            document.getElementById('button-image-url').value = '';
+            document.getElementById('button-image-preview').style.display = 'none';
+            showNotification('Button image cleared!');
+        }
+
+        function previewBackgroundImage() {
+            const url = document.getElementById('background-image-url').value;
+            if (url) {
+                const preview = document.getElementById('background-image-preview');
+                preview.src = url;
+                preview.style.display = 'block';
+                preview.onerror = () => {
+                    showNotification('Invalid image URL', 'error');
+                    preview.style.display = 'none';
+                };
+            }
+        }
+
+        function setBackgroundImage() {
+            const url = document.getElementById('background-image-url').value;
+            if (url) {
+                document.documentElement.style.setProperty('--background-image', `url(${url})`);
+                localStorage.setItem('backgroundImage', url);
+                showNotification('Background image applied successfully!');
+            } else {
+                showNotification('Please enter an image URL', 'error');
+            }
+        }
+
+        function clearBackgroundImage() {
+            document.documentElement.style.setProperty('--background-image', 'none');
+            localStorage.removeItem('backgroundImage');
+            document.getElementById('background-image-url').value = '';
+            document.getElementById('background-image-preview').style.display = 'none';
+            showNotification('Background image cleared!');
+        }
+
+        // Allow Enter key to verify access key
+        document.getElementById('access-key').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                verifyKey();
+            }
+        });
+
+        // Particle effects for premium themes
+        function createParticles() {
+            const particleEffects = document.getElementById('particle-effects');
+            if (!particleEffects || !particleEffects.checked) return;
+            
+            for (let i = 0; i < 3; i++) {
+                const particle = document.createElement('div');
+                particle.style.cssText = `
+                    position: fixed;
+                    width: 4px;
+                    height: 4px;
+                    background: var(--primary-color);
+                    border-radius: 50%;
+                    pointer-events: none;
+                    z-index: 1000;
+                    top: ${Math.random() * window.innerHeight}px;
+                    left: ${Math.random() * window.innerWidth}px;
+                    animation: float 3s ease-in-out infinite;
+                `;
+                document.body.appendChild(particle);
+                
+                setTimeout(() => particle.remove(), 3000);
+            }
+        }
+
+        // Particle animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float {
+                0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0; }
+                50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Create particles periodically
+        setInterval(createParticles, 2000);
+    </script>
+</body>
+</html>
